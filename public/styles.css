@@ -31,6 +31,14 @@ header.shrunk .logo-svg{height:46px}
 nav ul{display:flex;list-style:none;gap:2px;flex-wrap:wrap;align-items:center}
 nav a{display:block;padding:11px 14px;text-decoration:none;color:var(--ink);font-weight:600;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;font-size:1.08rem;letter-spacing:.6px;border-radius:6px}
 nav a:hover{color:var(--green);background:var(--tint)}
+/* mobile menu toggle (CSS-only, no JS) */
+.nav-toggle{position:absolute;width:1px;height:1px;opacity:0;margin:0}
+.burger{display:none;order:2;flex:none;width:46px;height:46px;border-radius:8px;cursor:pointer;align-items:center;justify-content:center}
+.burger i{display:block;width:24px;height:2px;background:var(--deep);position:relative}
+.burger i:before,.burger i:after{content:"";position:absolute;left:0;width:24px;height:2px;background:var(--deep);transition:transform .2s}
+.burger i:before{top:-7px}
+.burger i:after{top:7px}
+.nav-toggle:focus-visible+.burger{outline:3px solid var(--yellow);outline-offset:3px}
 /* buttons */
 .btn{display:inline-block;background:var(--yellow);color:var(--deep)!important;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;font-weight:800;font-size:1.12rem;letter-spacing:.6px;padding:15px 28px;text-decoration:none;border-radius:var(--r);border:none;cursor:pointer;box-shadow:0 4px 14px rgba(242,183,34,.28);transition:transform .15s,box-shadow .15s,filter .15s}
 .btn:hover{filter:brightness(1.05);transform:translateY(-2px);box-shadow:0 8px 20px rgba(242,183,34,.34)}
@@ -61,8 +69,9 @@ section{padding:88px 0}
 .tint{background:var(--tint)}
 .lead{font-size:1.14rem;color:var(--muted);max-width:730px}
 .grid{display:grid;gap:26px;margin-top:34px}
-.grid-3{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-.grid-2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
+.quotes{grid-template-columns:repeat(2,1fr)}
 /* cards */
 .card{background:#fff;border:none;border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
 .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
@@ -153,8 +162,28 @@ footer li{margin-bottom:8px}
  .mobile-bar{display:flex}
  section{padding:56px 0}
  .hero{padding:64px 0 56px}
- .logo-svg{height:48px}
- header.shrunk .logo-svg{height:42px}
+ .logo-svg{height:44px}
+ header.shrunk .logo-svg{height:40px}
+ /* collapse the nav behind a toggle so the sticky header stays ~70px */
+ .topbar{font-size:.8rem;padding:6px 0}
+ .topbar .wrap{justify-content:center;text-align:center;gap:2px 14px}
+ .nav{padding:10px 0;gap:8px}
+ header.shrunk .nav{padding:6px 0}
+ .burger{display:flex}
+ header nav{display:none;order:3;width:100%}
+ .nav-toggle:checked~nav{display:block}
+ .nav-toggle:checked+.burger i{background:transparent}
+ .nav-toggle:checked+.burger i:before{transform:translateY(7px) rotate(45deg)}
+ .nav-toggle:checked+.burger i:after{transform:translateY(-7px) rotate(-45deg)}
+ header nav ul{flex-direction:column;align-items:stretch;gap:0;padding:4px 0 14px}
+ header nav a{padding:14px 6px;font-size:1.14rem;border-radius:0;border-bottom:1px solid #E5EBDC}
+ header nav li:last-child a{border-bottom:none}
+ nav .btn{display:block;text-align:center;margin-top:14px;padding:15px 22px}
+ .gstrip{padding:14px 0}
+ .gstrip a{gap:8px;font-size:.95rem}
+ .quotes{grid-template-columns:1fr}
+ footer li{margin-bottom:0}
+ footer ul a{display:block;padding:11px 0}
  .grid{gap:20px}
  .trust-row{gap:16px;margin-top:26px}
  .quote-band{padding:56px 0}

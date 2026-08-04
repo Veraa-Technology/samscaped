@@ -42,6 +42,14 @@ header.shrunk .logo-svg{height:46px}
 nav ul{display:flex;list-style:none;gap:2px;flex-wrap:wrap;align-items:center}
 nav a{display:block;padding:11px 14px;text-decoration:none;color:var(--ink);font-weight:600;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;font-size:1.08rem;letter-spacing:.6px;border-radius:6px}
 nav a:hover{color:var(--green);background:var(--tint)}
+/* mobile menu toggle (CSS-only, no JS) */
+.nav-toggle{position:absolute;width:1px;height:1px;opacity:0;margin:0}
+.burger{display:none;order:2;flex:none;width:46px;height:46px;border-radius:8px;cursor:pointer;align-items:center;justify-content:center}
+.burger i{display:block;width:24px;height:2px;background:var(--deep);position:relative}
+.burger i:before,.burger i:after{content:"";position:absolute;left:0;width:24px;height:2px;background:var(--deep);transition:transform .2s}
+.burger i:before{top:-7px}
+.burger i:after{top:7px}
+.nav-toggle:focus-visible+.burger{outline:3px solid var(--yellow);outline-offset:3px}
 /* buttons */
 .btn{display:inline-block;background:var(--yellow);color:var(--deep)!important;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;font-weight:800;font-size:1.12rem;letter-spacing:.6px;padding:15px 28px;text-decoration:none;border-radius:var(--r);border:none;cursor:pointer;box-shadow:0 4px 14px rgba(242,183,34,.28);transition:transform .15s,box-shadow .15s,filter .15s}
 .btn:hover{filter:brightness(1.05);transform:translateY(-2px);box-shadow:0 8px 20px rgba(242,183,34,.34)}
@@ -72,8 +80,9 @@ section{padding:88px 0}
 .tint{background:var(--tint)}
 .lead{font-size:1.14rem;color:var(--muted);max-width:730px}
 .grid{display:grid;gap:26px;margin-top:34px}
-.grid-3{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-.grid-2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
+.quotes{grid-template-columns:repeat(2,1fr)}
 /* cards */
 .card{background:#fff;border:none;border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
 .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
@@ -164,8 +173,28 @@ footer li{margin-bottom:8px}
  .mobile-bar{display:flex}
  section{padding:56px 0}
  .hero{padding:64px 0 56px}
- .logo-svg{height:48px}
- header.shrunk .logo-svg{height:42px}
+ .logo-svg{height:44px}
+ header.shrunk .logo-svg{height:40px}
+ /* collapse the nav behind a toggle so the sticky header stays ~70px */
+ .topbar{font-size:.8rem;padding:6px 0}
+ .topbar .wrap{justify-content:center;text-align:center;gap:2px 14px}
+ .nav{padding:10px 0;gap:8px}
+ header.shrunk .nav{padding:6px 0}
+ .burger{display:flex}
+ header nav{display:none;order:3;width:100%}
+ .nav-toggle:checked~nav{display:block}
+ .nav-toggle:checked+.burger i{background:transparent}
+ .nav-toggle:checked+.burger i:before{transform:translateY(7px) rotate(45deg)}
+ .nav-toggle:checked+.burger i:after{transform:translateY(-7px) rotate(-45deg)}
+ header nav ul{flex-direction:column;align-items:stretch;gap:0;padding:4px 0 14px}
+ header nav a{padding:14px 6px;font-size:1.14rem;border-radius:0;border-bottom:1px solid #E5EBDC}
+ header nav li:last-child a{border-bottom:none}
+ nav .btn{display:block;text-align:center;margin-top:14px;padding:15px 22px}
+ .gstrip{padding:14px 0}
+ .gstrip a{gap:8px;font-size:.95rem}
+ .quotes{grid-template-columns:1fr}
+ footer li{margin-bottom:0}
+ footer ul a{display:block;padding:11px 0}
  .grid{gap:20px}
  .trust-row{gap:16px;margin-top:26px}
  .quote-band{padding:56px 0}
@@ -198,6 +227,8 @@ MOBILE_BAR = """<div class="mobile-bar">
 
 NAV = """<div class="topbar"><div class="wrap"><span>Free quotes for Akron &amp; Canton area homeowners</span><a href="tel:%s">Call or text %s</a></div></div>
 <header><div class="wrap nav">
+<input type="checkbox" id="navt" class="nav-toggle" aria-label="Open navigation menu">
+<label for="navt" class="burger" aria-hidden="true"><i></i></label>
 <a class="logo" href="/" aria-label="Samscaped home">
 <!-- TODO: swap for Sam's original vector logo file when he provides it -->
 <svg class="logo-svg" viewBox="0 0 268 66" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Samscaped">
@@ -220,11 +251,10 @@ NAV = """<div class="topbar"><div class="wrap"><span>Free quotes for Akron &amp;
 <div class="stripe-bar"></div>""" % (PHONE_TEL, PHONE)
 
 GSTRIP = """<div class="gstrip"><div class="wrap">
-<!-- TODO: update rating and review count once Sam has reviews on the GBP -->
 <a href="%s" target="_blank" rel="noopener" aria-label="See Samscaped reviews on Google">
 <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.6z"/><path fill="#34A853" d="M12 24c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3C3.7 21.5 7.6 24 12 24z"/><path fill="#FBBC05" d="M5.6 14.7a7.2 7.2 0 0 1 0-4.6v-3H1.8a12 12 0 0 0 0 10.6z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.3-3.3C17.7 1.2 15.1 0 12 0 7.6 0 3.7 2.5 1.8 6.2l3.8 3a7.1 7.1 0 0 1 6.4-4.4z"/></svg>
 <span class="stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.4 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.4 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.4 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.4 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.4 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/></svg></span>
-<span>Rated on Google &middot; Akron &amp; Canton homeowners</span></a>
+<span>5.0 on Google &middot; 8 reviews &middot; Akron &amp; Canton homeowners</span></a>
 </div></div>""" % GBP
 
 QUOTE_BAND = """<div class="quote-band"><div class="wrap">
@@ -347,6 +377,28 @@ os.makedirs(OUT, exist_ok=True)
 with open(os.path.join(OUT, "styles.css"), "w") as f:
     f.write(CSS)
 
+# ---------------- REVIEWS ----------------
+# Verbatim excerpts from the Samscaped Google Business Profile (5.0, 8 reviews).
+# Only edit these by copying text directly from the GBP. Never write a testimonial.
+# City is shown only where the reviewer stated it themselves.
+_STAR = '<svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.4 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/></svg>'
+STARS5 = '<span class="stars">' + _STAR * 5 + '</span>'
+
+REVIEWS = [
+ ("Samuel completely transformed our yard. He removed a large amount of overgrown weeds, cleaned and reshaped all of our landscape beds, and installed fresh mulch that made everything look brand new. The quality of work exceeded our expectations.",
+  "Brooke E. &middot; Plain Township"),
+ ("Sam was great! He was very responsive and professional. I think the before and after pictures speak for themselves regarding the quality of his work!",
+  "Layla A. &middot; North Canton"),
+ ("Great service! Sam always shows up on time, does a thorough job mowing the lawn, and leaves the yard looking neat and well-maintained. Reliable, professional, and easy to work with. Highly recommend!",
+  "Melissa C. &middot; Google review"),
+ ("Attention to detail, great pricing and great communication!",
+  "Anthony D. &middot; Google review"),
+]
+
+REVIEW_CARDS = "\n".join(
+ '<div class="quote-card">%s<p>"%s"</p><cite>%s</cite></div>' % (STARS5, q, c)
+ for q, c in REVIEWS)
+
 # ---------------- HOMEPAGE ----------------
 home_body = """
 <section class="reveal"><div class="wrap">
@@ -385,10 +437,8 @@ home_body = """
 
 <section class="tint reveal"><div class="wrap">
 <h2>What Customers Say</h2>
-<div class="grid grid-2">
-<!-- TODO: replace with real GBP reviews once Sam has them -->
-<div class="quote-card"><span class="stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.4 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.4 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.4 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.4 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.4 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/></svg></span><p>"Placeholder review. Swap in a real Google review from Sam's profile."</p><cite>Homeowner, Akron</cite></div>
-<div class="quote-card"><span class="stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.4 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.4 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.4 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.4 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L10 14.4 4.6 17.3l1.2-5.9L1.4 7.3l6-.7z"/></svg></span><p>"Placeholder review. Swap in a real Google review from Sam's profile."</p><cite>Homeowner, Canton</cite></div>
+<div class="grid grid-2 quotes">
+%s
 </div>
 <p style="margin-top:16px"><a href="%s" target="_blank" rel="noopener">Read our reviews on Google &rarr;</a></p>
 </div></section>
@@ -398,7 +448,7 @@ home_body = """
 <p class="lead">Tell us your address and what you need. Most quotes go out the same day.</p>
 %s
 </div></section>
-""" % (GBP, GHL_FORM)
+""" % (REVIEW_CARDS, GBP, GHL_FORM)
 
 page("index.html",
  "Lawn Care Akron & Canton, OH | Free Quotes | Samscaped",
