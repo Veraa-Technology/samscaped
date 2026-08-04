@@ -1,0 +1,2 @@
+# Cloudflare Pages serves /about.html at /about automatically.
+# Add 301s here if any old URLs need to be preserved.
