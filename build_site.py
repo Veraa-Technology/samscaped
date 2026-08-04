@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Samscaped static site generator. Outputs to ./public for Cloudflare Pages."""
+import hashlib
 import os
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public")
@@ -208,6 +209,11 @@ footer li{margin-bottom:8px}
 """
 
 
+# Content hash so a CSS change always busts the browser cache.
+# Without this a stale stylesheet can render new markup broken for up to a day.
+CSS_V = hashlib.md5(CSS.encode("utf-8")).hexdigest()[:8]
+
+
 JS = """<script>
 (function(){
  var h=document.querySelector('header');
@@ -340,7 +346,7 @@ def page(filename, title, meta_desc, h1_block, body, breadcrumb=None):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/styles.css?v=2-premium">
+<link rel="stylesheet" href="/styles.css?v=__CSSV__">
 %s
 </head>
 <body>
@@ -353,6 +359,7 @@ def page(filename, title, meta_desc, h1_block, body, breadcrumb=None):
 %s
 </body>
 </html>""" % (title, meta_desc, canonical, schema_block(filename, canonical), NAV, h1_block, body, QUOTE_BAND, FOOTER, MOBILE_BAR, JS)
+    html = html.replace("__CSSV__", CSS_V)
     with open(os.path.join(OUT, filename), "w") as f:
         f.write(html)
 
