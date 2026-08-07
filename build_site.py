@@ -174,7 +174,7 @@ footer li{margin-bottom:8px}
  .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
  .reveal.in{opacity:1;transform:none}
  .hero-media{animation:kb 20s ease-out forwards}
- @keyframes kb{from{transform:scale(1)}to{transform:scale(1.06)}}
+ @keyframes kb{from{transform:scale(1.02)}to{transform:scale(1.06)}}
  .hero .eyebrow,.hero h1,.hero p,.hero .cta-row,.hero .trust-row{opacity:0;animation:rise .55s ease-out forwards}
  .hero .eyebrow{animation-delay:.05s}
  .hero h1{animation-delay:.15s}
@@ -185,6 +185,8 @@ footer li{margin-bottom:8px}
 }
 @media(max-width:900px){nav ul{gap:0}nav a{padding:9px 10px;font-size:1rem}}
 @media(max-width:768px){
+ .hero-media{background-image:url('/assets/hero-mobile.jpg');background-position:center 32%;animation:none;transform:none}
+ .hero-scrim{background:linear-gradient(178deg,rgba(22,48,12,.86) 0%,rgba(22,48,12,.74) 42%,rgba(22,48,12,.90) 100%)}
  body{padding-bottom:76px}
  .mobile-bar{display:flex}
  section{padding:56px 0}
@@ -353,7 +355,7 @@ def page(filename, title, meta_desc, h1_block, body, breadcrumb=None):
     html = """<!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- BUILD: v5-photos -->
+<!-- BUILD: v6-hero -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>%s</title>
