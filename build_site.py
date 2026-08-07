@@ -353,7 +353,7 @@ def page(filename, title, meta_desc, h1_block, body, breadcrumb=None):
     html = """<!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- BUILD: v4-gallery -->
+<!-- BUILD: v5-photos -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>%s</title>
@@ -455,12 +455,12 @@ home_body = """
 <h2>Lawn Care Services</h2>
 <p class="lead">One crew, one point of contact, and a lawn that looks cut every single week. Every service comes with a free quote.</p>
 <div class="grid grid-3">
-<div class="card"><!-- TODO: real job photo at /assets/svc-mowing.jpg --><div class="card-img" style="background-image:url('/assets/svc-mowing.jpg')"></div><div class="card-body"><h3><a href="/lawn-mowing.html">Lawn Mowing</a></h3><p>Weekly and biweekly mowing with edging, trimming, and cleanup on every visit.</p><a class="more" href="/lawn-mowing.html">Mowing details &rarr;</a></div></div>
+<div class="card"><div class="card-img" style="background-image:url('/assets/svc-mowing.jpg')"></div><div class="card-body"><h3><a href="/lawn-mowing.html">Lawn Mowing</a></h3><p>Weekly and biweekly mowing with edging, trimming, and cleanup on every visit.</p><a class="more" href="/lawn-mowing.html">Mowing details &rarr;</a></div></div>
 <div class="card"><!-- TODO: real job photo at /assets/svc-landscaping.jpg --><div class="card-img" style="background-image:url('/assets/svc-landscaping.jpg')"></div><div class="card-body"><h3><a href="/landscaping.html">Landscaping</a></h3><p>Bed design, plant installs, and refreshes that lift curb appeal without a designer price tag.</p><a class="more" href="/landscaping.html">Landscaping details &rarr;</a></div></div>
 <div class="card"><!-- TODO: real job photo at /assets/svc-mulch.jpg --><div class="card-img" style="background-image:url('/assets/svc-mulch.jpg')"></div><div class="card-body"><h3><a href="/mulch-installation.html">Mulch Installation</a></h3><p>Bed edging, weed prep, and fresh mulch installed clean and even.</p><a class="more" href="/mulch-installation.html">Mulch details &rarr;</a></div></div>
-<div class="card"><!-- TODO: real job photo at /assets/svc-cleanup.jpg --><div class="card-img" style="background-image:url('/assets/svc-cleanup.jpg')"></div><div class="card-body"><h3><a href="/spring-fall-cleanup.html">Spring &amp; Fall Cleanup</a></h3><p>Full seasonal cleanups that get beds and turf ready for the season ahead.</p><a class="more" href="/spring-fall-cleanup.html">Cleanup details &rarr;</a></div></div>
+<div class="card"><div class="card-img" style="background-image:url('/assets/svc-cleanup.jpg')"></div><div class="card-body"><h3><a href="/spring-fall-cleanup.html">Spring &amp; Fall Cleanup</a></h3><p>Full seasonal cleanups that get beds and turf ready for the season ahead.</p><a class="more" href="/spring-fall-cleanup.html">Cleanup details &rarr;</a></div></div>
 <div class="card"><!-- TODO: real job photo at /assets/svc-trimming.jpg --><div class="card-img" style="background-image:url('/assets/svc-trimming.jpg')"></div><div class="card-body"><h3><a href="/hedge-trimming.html">Bush &amp; Hedge Trimming</a></h3><p>Shaping and trimming for shrubs, hedges, and ornamentals, debris hauled away.</p><a class="more" href="/hedge-trimming.html">Trimming details &rarr;</a></div></div>
-<div class="card"><!-- TODO: real job photo at /assets/svc-leaf.jpg --><div class="card-img" style="background-image:url('/assets/svc-leaf.jpg')"></div><div class="card-body"><h3><a href="/leaf-removal.html">Leaf Removal</a></h3><p>Fall leaf cleanup and hauling so your lawn goes into winter healthy.</p><a class="more" href="/leaf-removal.html">Leaf removal details &rarr;</a></div></div>
+<div class="card"><div class="card-img" style="background-image:url('/assets/svc-leaf.jpg')"></div><div class="card-body"><h3><a href="/leaf-removal.html">Leaf Removal</a></h3><p>Fall leaf cleanup and hauling so your lawn goes into winter healthy.</p><a class="more" href="/leaf-removal.html">Leaf removal details &rarr;</a></div></div>
 </div>
 </div></section>
 
@@ -518,12 +518,12 @@ services_body = """
 <section class="reveal"><div class="wrap">
 <p class="lead">Every Samscaped service starts with a free quote and ends with a property that looks taken care of. Pick a service below for what's included and how pricing works.</p>
 <div class="grid grid-3">
-<div class="card"><!-- TODO: real job photo at /assets/svc-mowing.jpg --><div class="card-img" style="background-image:url('/assets/svc-mowing.jpg')"></div><div class="card-body"><h3><a href="/lawn-mowing.html">Lawn Mowing</a></h3><p>Weekly and biweekly cuts with edging and trimming included.</p><a class="more" href="/lawn-mowing.html">Learn more &rarr;</a></div></div>
+<div class="card"><div class="card-img" style="background-image:url('/assets/svc-mowing.jpg')"></div><div class="card-body"><h3><a href="/lawn-mowing.html">Lawn Mowing</a></h3><p>Weekly and biweekly cuts with edging and trimming included.</p><a class="more" href="/lawn-mowing.html">Learn more &rarr;</a></div></div>
 <div class="card"><!-- TODO: real job photo at /assets/svc-landscaping.jpg --><div class="card-img" style="background-image:url('/assets/svc-landscaping.jpg')"></div><div class="card-body"><h3><a href="/landscaping.html">Landscaping</a></h3><p>Bed work, plantings, and refreshes for real curb appeal.</p><a class="more" href="/landscaping.html">Learn more &rarr;</a></div></div>
 <div class="card"><!-- TODO: real job photo at /assets/svc-mulch.jpg --><div class="card-img" style="background-image:url('/assets/svc-mulch.jpg')"></div><div class="card-body"><h3><a href="/mulch-installation.html">Mulch Installation</a></h3><p>Prep, edge, and install. Clean lines, even depth.</p><a class="more" href="/mulch-installation.html">Learn more &rarr;</a></div></div>
-<div class="card"><!-- TODO: real job photo at /assets/svc-cleanup.jpg --><div class="card-img" style="background-image:url('/assets/svc-cleanup.jpg')"></div><div class="card-body"><h3><a href="/spring-fall-cleanup.html">Spring &amp; Fall Cleanup</a></h3><p>Seasonal resets for beds and turf.</p><a class="more" href="/spring-fall-cleanup.html">Learn more &rarr;</a></div></div>
+<div class="card"><div class="card-img" style="background-image:url('/assets/svc-cleanup.jpg')"></div><div class="card-body"><h3><a href="/spring-fall-cleanup.html">Spring &amp; Fall Cleanup</a></h3><p>Seasonal resets for beds and turf.</p><a class="more" href="/spring-fall-cleanup.html">Learn more &rarr;</a></div></div>
 <div class="card"><!-- TODO: real job photo at /assets/svc-trimming.jpg --><div class="card-img" style="background-image:url('/assets/svc-trimming.jpg')"></div><div class="card-body"><h3><a href="/hedge-trimming.html">Bush &amp; Hedge Trimming</a></h3><p>Shaping, trimming, and haul-away.</p><a class="more" href="/hedge-trimming.html">Learn more &rarr;</a></div></div>
-<div class="card"><!-- TODO: real job photo at /assets/svc-leaf.jpg --><div class="card-img" style="background-image:url('/assets/svc-leaf.jpg')"></div><div class="card-body"><h3><a href="/leaf-removal.html">Leaf Removal</a></h3><p>Fall cleanup and hauling before winter sets in.</p><a class="more" href="/leaf-removal.html">Learn more &rarr;</a></div></div>
+<div class="card"><div class="card-img" style="background-image:url('/assets/svc-leaf.jpg')"></div><div class="card-body"><h3><a href="/leaf-removal.html">Leaf Removal</a></h3><p>Fall cleanup and hauling before winter sets in.</p><a class="more" href="/leaf-removal.html">Learn more &rarr;</a></div></div>
 </div>
 <p style="margin-top:24px">Not sure what your property needs? <a href="/contact.html">Send us the address</a> and we'll tell you straight, including what you don't need.</p>
 </div></section>
@@ -689,9 +689,9 @@ def city_page(fn, city, title, desc, sub, paras, hoods, faq):
 <section class="tint reveal"><div class="wrap">
 <h2>Lawn Care Services in %s</h2>
 <div class="grid grid-3">
-<div class="card"><!-- TODO: real job photo at /assets/svc-mowing.jpg --><div class="card-img" style="background-image:url('/assets/svc-mowing.jpg')"></div><div class="card-body"><h3><a href="/lawn-mowing.html">Lawn Mowing</a></h3><p>Weekly and biweekly cuts, edging included.</p></div></div>
+<div class="card"><div class="card-img" style="background-image:url('/assets/svc-mowing.jpg')"></div><div class="card-body"><h3><a href="/lawn-mowing.html">Lawn Mowing</a></h3><p>Weekly and biweekly cuts, edging included.</p></div></div>
 <div class="card"><!-- TODO: real job photo at /assets/svc-landscaping.jpg --><div class="card-img" style="background-image:url('/assets/svc-landscaping.jpg')"></div><div class="card-body"><h3><a href="/landscaping.html">Landscaping &amp; Mulch</a></h3><p>Bed work, plantings, and <a href="/mulch-installation.html">mulch installation</a>.</p></div></div>
-<div class="card"><!-- TODO: real job photo at /assets/svc-cleanup.jpg --><div class="card-img" style="background-image:url('/assets/svc-cleanup.jpg')"></div><div class="card-body"><h3><a href="/spring-fall-cleanup.html">Cleanups &amp; Leaf Removal</a></h3><p>Seasonal cleanups and <a href="/leaf-removal.html">fall leaf removal</a>.</p></div></div>
+<div class="card"><div class="card-img" style="background-image:url('/assets/svc-cleanup.jpg')"></div><div class="card-body"><h3><a href="/spring-fall-cleanup.html">Cleanups &amp; Leaf Removal</a></h3><p>Seasonal cleanups and <a href="/leaf-removal.html">fall leaf removal</a>.</p></div></div>
 </div>
 </div></section>
 <section class="reveal"><div class="wrap">
@@ -796,7 +796,8 @@ about_body = """
 <h2>Owned and Run by Sam Emich</h2>
 <p>Samscaped is a local lawn care company serving the Akron and Canton area, owned and operated by Sam Emich. No call centers, no franchise playbook. The person who quotes your property is the person responsible for how it looks.</p>
 <p>The business is built on a simple idea: show up when you say you will, do the work like it's your own yard, and quote honestly enough that customers stop shopping around.</p>
-<!-- TODO: add Sam's real story: how he started, years in business, crew size, a photo of Sam and the equipment -->
+<p><img src="/assets/about-crew.jpg" alt="Samscaped crew working on a property in the Akron area" loading="lazy" width="900" height="675" style="border-radius:var(--r);box-shadow:var(--shadow)"></p>
+<!-- TODO: add Sam's story (how he started, years in business, crew size) and a portrait of Sam -->
 <p><a class="btn" href="/contact.html">Get a Free Quote</a></p>
 </div>
 <div>
