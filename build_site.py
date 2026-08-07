@@ -137,6 +137,21 @@ details p{margin:14px 0 0;color:var(--muted);max-width:760px}
 .price-table td:first-child{font-weight:700;color:var(--deep)}
 .price-table td:nth-child(2){font-weight:600;color:var(--green);white-space:nowrap}
 .price-table td:nth-child(3){color:var(--muted)}
+
+/* before / after gallery */
+.ba-grid{display:grid;gap:28px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:34px}
+.ba-item{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.ba-pair{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:#fff}
+.ba-shot{position:relative;aspect-ratio:3/4;overflow:hidden}
+.ba-shot img{width:100%;height:100%;object-fit:cover}
+.ba-shot span{position:absolute;top:10px;left:10px;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;font-weight:800;font-size:.82rem;letter-spacing:1.2px;padding:5px 11px;border-radius:5px}
+.ba-shot.before span{background:rgba(30,35,26,.86);color:#fff}
+.ba-shot.after span{background:var(--yellow);color:var(--deep)}
+.ba-cap{padding:16px 20px}
+.ba-cap h3{font-size:1.1rem;margin-bottom:3px}
+.ba-cap p{margin:0;color:var(--muted);font-size:.95rem}
+.ba-single .ba-pair{grid-template-columns:1fr}
+@media(max-width:520px){.ba-grid{gap:20px}}
 /* form */
 .form-shell{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);padding:12px}
 /* footer */
@@ -249,6 +264,7 @@ NAV = """<div class="topbar"><div class="wrap"><span>Free quotes for Akron &amp;
 <nav><ul>
 <li><a href="/services.html">Services</a></li>
 <li><a href="/service-areas.html">Service Areas</a></li>
+<li><a href="/gallery.html">Gallery</a></li>
 <li><a href="/pricing.html">Pricing</a></li>
 <li><a href="/about.html">About</a></li>
 <li><a href="/contact.html" class="btn">Get a Free Quote</a></li>
@@ -295,6 +311,7 @@ FOOTER = """<footer><div class="wrap">
 </ul></div>
 <div><h3>Company</h3><ul>
 <li><a href="/about.html">About Samscaped</a></li>
+<li><a href="/gallery.html">Before &amp; After</a></li>
 <li><a href="/pricing.html">Pricing</a></li>
 <li><a href="/contact.html">Free Quote</a></li>
 </ul></div>
@@ -336,7 +353,7 @@ def page(filename, title, meta_desc, h1_block, body, breadcrumb=None):
     html = """<!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- BUILD: v2-premium -->
+<!-- BUILD: v4-gallery -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>%s</title>
@@ -406,6 +423,32 @@ REVIEW_CARDS = "\n".join(
  '<div class="quote-card">%s<p>"%s"</p><cite>%s</cite></div>' % (STARS5, q, c)
  for q, c in REVIEWS)
 
+
+# Real Samscaped job photos. Pairings are my read of the shots, Christian to confirm.
+BA_ITEMS = [
+    ("bed-refresh", "Bed Refresh", "Overgrown side bed cleaned out, edged, and mulched."),
+    ("front-shrubs", "Shrub Trim &amp; Mulch", "Front shrubs cut back to shape, beds re-edged and mulched."),
+    ("ranch-front", "Front Bed Rebuild", "New shrubs installed with a fresh curved edge and mulch."),
+    ("curved-bed", "Bed Reshape", "Weedy border reshaped into a clean curve, fully mulched."),
+    ("entry-beds", "Entry Cleanup", "Overgrown entry beds cleared, trimmed, and finished."),
+    ("deck-surround", "Deck Surround", "Debris cleared and beds mulched around the deck perimeter."),
+    ("under-deck", "Under-Deck Gravel", "Bare, washed-out ground leveled and finished with gravel."),
+]
+
+
+def ba_block(limit=None):
+    items = BA_ITEMS if limit is None else BA_ITEMS[:limit]
+    out = ['<div class="ba-grid">']
+    for slug, title, cap in items:
+        out.append(
+            '<div class="ba-item"><div class="ba-pair">'
+            '<div class="ba-shot before"><img src="/assets/ba-%s-before.jpg" alt="%s before Samscaped" loading="lazy" width="700" height="933"><span>Before</span></div>'
+            '<div class="ba-shot after"><img src="/assets/ba-%s-after.jpg" alt="%s after Samscaped" loading="lazy" width="700" height="933"><span>After</span></div>'
+            '</div><div class="ba-cap"><h3>%s</h3><p>%s</p></div></div>'
+            % (slug, title, slug, title, title, cap))
+    out.append('</div>')
+    return "".join(out)
+
 # ---------------- HOMEPAGE ----------------
 home_body = """
 <section class="reveal"><div class="wrap">
@@ -443,6 +486,13 @@ home_body = """
 </div></section>
 
 <section class="tint reveal"><div class="wrap">
+<h2>Recent Work</h2>
+<p class="lead">Real properties in the Akron and Canton area, before and after. No stock photos.</p>
+""" + ba_block(4) + """
+<p style="margin-top:28px"><a class="btn" href="/gallery.html">See More Before &amp; After</a></p>
+</div></section>
+
+<section class="reveal"><div class="wrap">
 <h2>What Customers Say</h2>
 <div class="grid grid-2 quotes">
 %s
@@ -802,11 +852,38 @@ page("contact.html",
  hero("Free Quotes", "Get a Free Quote", "Call, text, or send the form. Most quotes go out the same day."),
  contact_body)
 
+# ---------------- GALLERY ----------------
+gallery_body = """
+<section class="reveal"><div class="wrap">
+<p class="lead">Every photo below is a real Samscaped job in the Akron and Canton area. Same crew, same standard, whether it is a bed refresh or a full front rebuild.</p>
+""" + ba_block() + """
+<div class="ba-grid" style="margin-top:28px">
+<div class="ba-item ba-single"><div class="ba-pair">
+<div class="ba-shot after"><img src="/assets/ba-brick-front-after.jpg" alt="Finished mulch bed with landscape lighting by Samscaped" loading="lazy" width="700" height="933"><span>Finished</span></div>
+</div><div class="ba-cap"><h3>Mulch &amp; Lighting</h3><p>Black mulch, new plantings, and path lighting along a full front walk.</p></div></div>
+</div>
+</div></section>
+
+<section class="tint reveal"><div class="wrap">
+<h2>What Customers Say</h2>
+<div class="grid grid-2 quotes">
+""" + REVIEW_CARDS + """
+</div>
+<p style="margin-top:16px"><a href="%s" target="_blank" rel="noopener">Read our reviews on Google &rarr;</a></p>
+</div></section>
+""" % GBP
+
+page("gallery.html",
+ "Before & After Gallery | Lawn Care Akron & Canton, OH | Samscaped",
+ "See real before and after photos of Samscaped lawn care and landscaping jobs across the Akron and Canton, Ohio area. Free quotes on every project.",
+ hero("Our Work", "Before &amp; After Gallery", "Real properties, real results. Every photo below is an actual Samscaped job."),
+ gallery_body)
+
 # ---------------- SITEMAP + ROBOTS ----------------
 pages = ["", "services.html", "lawn-mowing.html", "landscaping.html", "mulch-installation.html",
  "spring-fall-cleanup.html", "hedge-trimming.html", "leaf-removal.html", "service-areas.html",
  "lawn-care-akron.html", "lawn-care-canton.html", "lawn-care-north-canton.html", "lawn-care-green.html",
- "pricing.html", "about.html", "contact.html"]
+ "gallery.html", "pricing.html", "about.html", "contact.html"]
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
 for p in pages:
     sm += "  <url><loc>%s/%s</loc></url>\n" % (DOMAIN, p)
