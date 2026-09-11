@@ -142,6 +142,28 @@ details p{margin:14px 0 0;color:var(--muted);max-width:760px}
 @media(max-width:520px){.ba-grid{gap:20px}}
 /* form */
 .form-shell{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);padding:12px}
+
+/* quote form */
+.qform{display:grid;gap:16px}
+.qf-row{display:grid;gap:16px;grid-template-columns:1fr 1fr}
+.qf-field{display:flex;flex-direction:column;gap:6px}
+.qf-field label{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;font-weight:700;font-size:1rem;letter-spacing:.6px;color:var(--deep)}
+.qf-field label .req{color:#B3401A}
+.qform input,.qform select,.qform textarea{font-family:'Barlow',sans-serif;font-size:1rem;color:var(--ink);background:#fff;border:1.5px solid #CBD9BC;border-radius:8px;padding:13px 14px;width:100%;min-height:48px}
+.qform textarea{min-height:100px;resize:vertical}
+.qform input:focus,.qform select:focus,.qform textarea:focus{border-color:var(--green);outline:3px solid rgba(94,156,63,.25);outline-offset:0}
+.qf-checks{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-top:2px}
+.qf-check{display:flex;align-items:center;gap:10px;background:var(--tint);border:1.5px solid transparent;border-radius:8px;padding:12px 14px;cursor:pointer;font-weight:600;min-height:48px}
+.qf-check:hover{border-color:#CBD9BC}
+.qf-check input{width:20px;height:20px;min-height:0;accent-color:var(--green);flex:none;padding:0}
+.qf-check.on{border-color:var(--green);background:#E8F0DF}
+.qform .btn{width:100%;font-size:1.2rem}
+.qf-note{font-size:.9rem;color:var(--muted);text-align:center;margin:0}
+.qf-msg{border-radius:8px;padding:16px 18px;font-weight:600;display:none}
+.qf-msg.ok{display:block;background:#E8F0DF;border-left:5px solid var(--green);color:var(--deep)}
+.qf-msg.err{display:block;background:#FBEDE6;border-left:5px solid #B3401A;color:#7A2A10}
+.qf-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+@media(max-width:600px){.qf-row{grid-template-columns:1fr}}
 /* footer */
 footer{background:var(--deep);color:#C6D3B9;padding:64px 0 26px;font-size:.96rem}
 footer h3{color:#fff;margin-bottom:14px;font-size:1.15rem}

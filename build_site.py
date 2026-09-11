@@ -154,6 +154,28 @@ details p{margin:14px 0 0;color:var(--muted);max-width:760px}
 @media(max-width:520px){.ba-grid{gap:20px}}
 /* form */
 .form-shell{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);padding:12px}
+
+/* quote form */
+.qform{display:grid;gap:16px}
+.qf-row{display:grid;gap:16px;grid-template-columns:1fr 1fr}
+.qf-field{display:flex;flex-direction:column;gap:6px}
+.qf-field label{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;font-weight:700;font-size:1rem;letter-spacing:.6px;color:var(--deep)}
+.qf-field label .req{color:#B3401A}
+.qform input,.qform select,.qform textarea{font-family:'Barlow',sans-serif;font-size:1rem;color:var(--ink);background:#fff;border:1.5px solid #CBD9BC;border-radius:8px;padding:13px 14px;width:100%;min-height:48px}
+.qform textarea{min-height:100px;resize:vertical}
+.qform input:focus,.qform select:focus,.qform textarea:focus{border-color:var(--green);outline:3px solid rgba(94,156,63,.25);outline-offset:0}
+.qf-checks{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-top:2px}
+.qf-check{display:flex;align-items:center;gap:10px;background:var(--tint);border:1.5px solid transparent;border-radius:8px;padding:12px 14px;cursor:pointer;font-weight:600;min-height:48px}
+.qf-check:hover{border-color:#CBD9BC}
+.qf-check input{width:20px;height:20px;min-height:0;accent-color:var(--green);flex:none;padding:0}
+.qf-check.on{border-color:var(--green);background:#E8F0DF}
+.qform .btn{width:100%;font-size:1.2rem}
+.qf-note{font-size:.9rem;color:var(--muted);text-align:center;margin:0}
+.qf-msg{border-radius:8px;padding:16px 18px;font-weight:600;display:none}
+.qf-msg.ok{display:block;background:#E8F0DF;border-left:5px solid var(--green);color:var(--deep)}
+.qf-msg.err{display:block;background:#FBEDE6;border-left:5px solid #B3401A;color:#7A2A10}
+.qf-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+@media(max-width:600px){.qf-row{grid-template-columns:1fr}}
 /* footer */
 footer{background:var(--deep);color:#C6D3B9;padding:64px 0 26px;font-size:.96rem}
 footer h3{color:#fff;margin-bottom:14px;font-size:1.15rem}
@@ -322,11 +344,71 @@ FOOTER = """<footer><div class="wrap">
 </div></footer>""" % (PHONE_TEL, PHONE, EMAIL, EMAIL, GBP)
 
 # GHL form embed placeholder. Swap YOUR_FORM_ID for the Samscaped form ID from GHL.
-GHL_FORM = """<!-- TODO: replace YOUR_FORM_ID with the Samscaped GHL form ID (sub-account form, not Veraa's) -->
-<div class="form-shell">
-<iframe src="https://api.leadconnectorhq.com/widget/form/YOUR_FORM_ID" style="width:100%;height:600px;border:none;border-radius:4px" id="inline-YOUR_FORM_ID" title="Samscaped Free Quote Form"></iframe>
-<script src="https://link.msgsndr.com/js/form_embed.js"></script>
-</div>"""
+# Leads POST as JSON to a GoHighLevel Inbound Webhook.
+# TODO: In GHL (Samscaped sub-account) create Automation > Workflow > Trigger "Inbound Webhook",
+# copy the webhook URL, and paste it below. Until then the form shows the call-instead fallback.
+FORM_WEBHOOK = "YOUR_GHL_WEBHOOK_URL"
+
+GHL_FORM = """<div class="form-shell">
+<form class="qform" id="quoteForm" novalidate>
+<div class="qf-msg" id="qfMsg" role="status" aria-live="polite"></div>
+<div class="qf-row">
+<div class="qf-field"><label for="qf-name">Name <span class="req">*</span></label>
+<input id="qf-name" name="name" type="text" autocomplete="name" required></div>
+<div class="qf-field"><label for="qf-phone">Phone <span class="req">*</span></label>
+<input id="qf-phone" name="phone" type="tel" autocomplete="tel" required></div>
+</div>
+<div class="qf-row">
+<div class="qf-field"><label for="qf-email">Email</label>
+<input id="qf-email" name="email" type="email" autocomplete="email"></div>
+<div class="qf-field"><label for="qf-address">Property Address <span class="req">*</span></label>
+<input id="qf-address" name="address" type="text" autocomplete="street-address" placeholder="Street, City" required></div>
+</div>
+<div class="qf-field"><label>What do you need?</label>
+<div class="qf-checks">
+<label class="qf-check"><input type="checkbox" name="service" value="Lawn Mowing">Lawn Mowing</label>
+<label class="qf-check"><input type="checkbox" name="service" value="Landscaping">Landscaping</label>
+<label class="qf-check"><input type="checkbox" name="service" value="Mulch">Mulch</label>
+<label class="qf-check"><input type="checkbox" name="service" value="Cleanup">Spring/Fall Cleanup</label>
+<label class="qf-check"><input type="checkbox" name="service" value="Trimming">Bush &amp; Hedge Trimming</label>
+<label class="qf-check"><input type="checkbox" name="service" value="Leaf Removal">Leaf Removal</label>
+</div></div>
+<div class="qf-field"><label for="qf-timing">How soon?</label>
+<select id="qf-timing" name="timing">
+<option value="As soon as possible">As soon as possible</option>
+<option value="Within a couple weeks">Within a couple weeks</option>
+<option value="Just getting prices">Just getting prices</option>
+</select></div>
+<div class="qf-field"><label for="qf-notes">Anything we should know?</label>
+<textarea id="qf-notes" name="notes" placeholder="Gates, slopes, dogs, HOA rules, or what you're hoping to get done"></textarea></div>
+<div class="qf-hp"><label>Leave blank<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+<button type="submit" class="btn" id="qfBtn">Get My Free Quote</button>
+<p class="qf-note">No obligation. We usually reply the same day. Prefer to talk? Call or text <a href="tel:%s">%s</a>.</p>
+</form>
+</div>
+<script>
+(function(){
+ var f=document.getElementById('quoteForm');if(!f)return;
+ var msg=document.getElementById('qfMsg'),btn=document.getElementById('qfBtn'),hook='%s';
+ f.addEventListener('change',function(e){var w=e.target.closest('.qf-check');if(w)w.classList.toggle('on',e.target.checked)});
+ function show(t,cls){msg.textContent=t;msg.className='qf-msg '+cls;msg.scrollIntoView({block:'nearest'})}
+ f.addEventListener('submit',function(e){
+  e.preventDefault();
+  if(f.website.value)return;
+  var d={};new FormData(f).forEach(function(v,k){d[k]=d[k]?d[k]+', '+v:v});
+  if(!d.name||!d.phone||!d.address){show('Please add your name, phone, and property address so we can quote it.','err');return}
+  d.source='Samscaped website';d.page=location.pathname;
+  if(hook.indexOf('http')!==0){show('Thanks! The online form is not live yet. Please call or text (330) 578-5085 and we will get you a quote today.','err');return}
+  btn.disabled=true;btn.textContent='Sending...';
+  fetch(hook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)})
+   .then(function(r){if(!r.ok)throw 0;f.reset();
+    Array.prototype.forEach.call(f.querySelectorAll('.qf-check.on'),function(w){w.classList.remove('on')});
+    show('Got it. We will get back to you shortly, usually the same day.','ok')})
+   .catch(function(){show('Something went wrong sending that. Please call or text (330) 578-5085 and we will take care of you.','err')})
+   .then(function(){btn.disabled=false;btn.textContent='Get My Free Quote'});
+ });
+})();
+</script>""" % (PHONE_TEL, PHONE, FORM_WEBHOOK)
 
 def schema_block(page_name, page_url, extra_service=None):
     services = ["Lawn Mowing","Landscaping","Mulch Installation","Spring and Fall Cleanup","Bush and Hedge Trimming","Leaf Removal"]
@@ -355,7 +437,7 @@ def page(filename, title, meta_desc, h1_block, body, breadcrumb=None):
     html = """<!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- BUILD: v6-hero -->
+<!-- BUILD: v7-form -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>%s</title>
